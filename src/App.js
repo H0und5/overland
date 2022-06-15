@@ -1,13 +1,20 @@
 import { useRef, useState } from 'react';
 
+// import admin details
 import admin from './loginDetails.json';
 
+// import css styles
 import styles from './App.css';
+
+
+
 
 function App() {
 
+  // checks if user is logged in or not
   const [ isLoggedIn, setIsLoggedIn ] = useState(false);
 
+  // ref to detect input values for form
   const emailRef = useRef('');
   const passwordRef = useRef('');
 
@@ -16,10 +23,19 @@ function App() {
   const onSubmitHandler = (event) => {
     event.preventDefault();
 
+    // const { user, rememberMe } = this.state;
+    // localStorage.setItem('rememberMe', rememberMe);
+    // localStorage.setItem('user', rememberMe ? user : '');
+
+    localStorage.setItem('user', emailRef.current.value);
+    localStorage.setItem('password', passwordRef.current.value);
+
     if (emailRef.current.value === admin.email && passwordRef.current.value === admin.password) {
       console.log('Login cleared');
 
+      // sets logged in status to true.
       setIsLoggedIn(true)
+
     } else {
       console.log('Something went wrong')
     }
@@ -48,6 +64,10 @@ function App() {
                 <button onClick={onSubmitHandler} type="submit">Login</button>
         
               </form>
+        }
+
+        {isLoggedIn && 
+          <p>You're logged in!</p>
         }
 
     </div>
