@@ -1,46 +1,57 @@
-import { useRef, useState } from 'react';
+import { useRef, useState } from "react";
 
 // import admin details
-import admin from './loginDetails.json';
+import admin from "./loginDetails.json";
 
 // import css styles
-import styles from './App.css';
-
-
-
+import styles from "./App.css";
 
 function App() {
-
   // checks if user is logged in or not
-  const [ isLoggedIn, setIsLoggedIn ] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   // ref to detect input values for form
-  const emailRef = useRef('');
-  const passwordRef = useRef('');
+  const emailRef = useRef("");
+  const passwordRef = useRef("");
+
+
+
 
   // when user submits login form
 
   const onSubmitHandler = (event) => {
     event.preventDefault();
 
-    // const { user, rememberMe } = this.state;
-    // localStorage.setItem('rememberMe', rememberMe);
-    // localStorage.setItem('user', rememberMe ? user : '');
+    sessionStorage.setItem("user", emailRef.current.value);
 
-    localStorage.setItem('user', emailRef.current.value);
-    localStorage.setItem('password', passwordRef.current.value);
-
-    if (emailRef.current.value === admin.email && passwordRef.current.value === admin.password) {
-      console.log('Login cleared');
+    if (
+      emailRef.current.value === admin.email &&
+      passwordRef.current.value === admin.password
+    ) {
+      console.log("Login cleared");
 
       // sets logged in status to true.
-      setIsLoggedIn(true)
-
+      setIsLoggedIn(true);
     } else {
-      console.log('Something went wrong')
+      console.log("Something went wrong");
     }
-    
+  };
+
+
+  const onLogoutHandler = () => {
+
+    setIsLoggedIn(false);
+    sessionStorage.removeItem('user');
+
   }
+
+
+
+
+
+
+
+
 
   // App component rendered here
 
@@ -48,28 +59,39 @@ function App() {
     <div>
       <h1>Login Form</h1>
 
-        {!isLoggedIn &&
-                <form className={styles.formContainer}>
-        
-                <div className={styles.inputContainer}>
-                  <h4>Email</h4>
-                  <input ref={emailRef} placeholder="Enter your email here" type="text"/>
-                </div>
-                
-                <div className={styles.inputContainer}>
-                  <h4>Password</h4>
-                  <input ref={passwordRef} placeholder="Enter your password here" type="text"></input>
-                </div>
-        
-                <button onClick={onSubmitHandler} type="submit">Login</button>
-        
-              </form>
-        }
+      {!isLoggedIn && (
+        <form className={styles.formContainer}>
+          <div className={styles.inputContainer}>
+            <h4>Email</h4>
+            <input
+              ref={emailRef}
+              placeholder="Enter your email here"
+              type="text"
+            />
+          </div>
 
-        {isLoggedIn && 
+          <div className={styles.inputContainer}>
+            <h4>Password</h4>
+            <input
+              ref={passwordRef}
+              placeholder="Enter your password here"
+              type="text"
+            ></input>
+          </div>
+
+          <button onClick={onSubmitHandler} type="submit">
+            Login
+          </button>
+        </form>
+      )}
+
+      {isLoggedIn && (
+        <div>
           <p>You're logged in!</p>
-        }
 
+          <button onClick={onLogoutHandler}>Sign Out</button>
+        </div>
+      )}
     </div>
   );
 }
