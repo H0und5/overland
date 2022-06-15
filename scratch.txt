@@ -1,0 +1,26 @@
+
+
+-------
+
+      <h1>Login Form</h1>
+
+      <form className={styles.formContainer}>
+        
+        <div className={styles.inputContainer}>
+          <h4>Email</h4>
+          <input ref={emailRef} placeholder="Enter your email here" type="text"/>
+        </div>
+        
+        <div className={styles.inputContainer}>
+          <h4>Password</h4>
+          <input ref={passwordRef} placeholder="Enter your password here" type="text"></input>
+        </div>
+
+        <button onClick={onSubmitHandler} type="submit">Login</button>
+
+      </form>
+
+
+--------
+
+
