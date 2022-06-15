@@ -10,10 +10,14 @@ function App() {
   // checks if user is logged in or not
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
+  // check if the user and password is logged in storage
+  const userCheck = localStorage.getItem('user');
+
   // ref to detect input values for form
   const emailRef = useRef("");
   const passwordRef = useRef("");
 
+  console.log(userCheck)
 
 
 
@@ -22,7 +26,7 @@ function App() {
   const onSubmitHandler = (event) => {
     event.preventDefault();
 
-    sessionStorage.setItem("user", emailRef.current.value);
+    localStorage.setItem("user", emailRef.current.value);
 
     if (
       emailRef.current.value === admin.email &&
@@ -40,8 +44,8 @@ function App() {
 
   const onLogoutHandler = () => {
 
-    setIsLoggedIn(false);
-    sessionStorage.removeItem('user');
+    localStorage.removeItem('user');
+    // setIsLoggedIn(false);
 
   }
 
@@ -59,7 +63,7 @@ function App() {
     <div>
       <h1>Login Form</h1>
 
-      {!isLoggedIn && (
+      {userCheck !== 'test@admin.com' && (
         <form className={styles.formContainer}>
           <div className={styles.inputContainer}>
             <h4>Email</h4>
@@ -85,7 +89,7 @@ function App() {
         </form>
       )}
 
-      {isLoggedIn && (
+      {isLoggedIn && userCheck === 'test@admin.com' && (
         <div>
           <p>You're logged in!</p>
 
