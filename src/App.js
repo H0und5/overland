@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 
 // import admin details
 import admin from "./loginDetails.json";
@@ -8,7 +8,7 @@ import styles from "./App.css";
 
 function App() {
   // checks if user is logged in or not
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [ isLoggedIn, setIsLoggedIn ] = useState(false)
 
   // check if the user and password is logged in storage
   const userCheck = localStorage.getItem('user');
@@ -17,8 +17,10 @@ function App() {
   const emailRef = useRef("");
   const passwordRef = useRef("");
 
-  console.log(userCheck)
-
+  
+  // run useEffect if this to check user auth status.
+  useEffect(() => {
+  }, [isLoggedIn])
 
 
   // when user submits login form
@@ -34,8 +36,8 @@ function App() {
     ) {
       console.log("Login cleared");
 
-      // sets logged in status to true.
       setIsLoggedIn(true);
+      // sets logged in status to true.
     } else {
       console.log("Something went wrong");
     }
@@ -45,7 +47,9 @@ function App() {
   const onLogoutHandler = () => {
 
     localStorage.removeItem('user');
-    // setIsLoggedIn(false);
+    setIsLoggedIn(false);
+    window.location.reload(false);
+
 
   }
 
@@ -63,7 +67,7 @@ function App() {
     <div>
       <h1>Login Form</h1>
 
-      {userCheck !== 'test@admin.com' && (
+      {!isLoggedIn && userCheck !== 'test@admin.com' && (
         <form className={styles.formContainer}>
           <div className={styles.inputContainer}>
             <h4>Email</h4>
@@ -89,7 +93,7 @@ function App() {
         </form>
       )}
 
-      {isLoggedIn && userCheck === 'test@admin.com' && (
+      {userCheck === 'test@admin.com' && (
         <div>
           <p>You're logged in!</p>
 
