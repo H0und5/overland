@@ -1,5 +1,8 @@
 import { useRef, useState, useEffect } from "react";
 
+// import components
+import Button from "./components/Button";
+
 // import admin details
 import admin from "./loginDetails.json";
 
@@ -9,18 +12,21 @@ import styles from "./App.css";
 function App() {
   // checks if user is logged in or not
   const [ isLoggedIn, setIsLoggedIn ] = useState(false)
+  const [ user, setUser ] = useState()
 
   // check if the user and password is logged in storage
-  const userCheck = localStorage.getItem('user');
+
+  useEffect(() => {
+
+    const userCheck = localStorage.getItem('user');
+
+    setUser(userCheck)
+
+  }, [setUser])
 
   // ref to detect input values for form
   const emailRef = useRef("");
   const passwordRef = useRef("");
-
-  
-  // run useEffect if this to check user auth status.
-  useEffect(() => {
-  }, [isLoggedIn])
 
 
   // when user submits login form
@@ -37,6 +43,8 @@ function App() {
       console.log("Login cleared");
 
       setIsLoggedIn(true);
+
+      setUser(emailRef.current.value)
       // sets logged in status to true.
     } else {
       console.log("Something went wrong");
@@ -44,20 +52,16 @@ function App() {
   };
 
 
+
   const onLogoutHandler = () => {
 
     localStorage.removeItem('user');
     setIsLoggedIn(false);
-    window.location.reload(false);
+    // window.location.reload(false);
 
+    setUser()
 
-  }
-
-
-
-
-
-
+  };
 
 
 
@@ -67,7 +71,7 @@ function App() {
     <div>
       <h1>Login Form</h1>
 
-      {!isLoggedIn && userCheck !== 'test@admin.com' && (
+      {!isLoggedIn && user !== 'test@admin.com' && (
         <form className={styles.formContainer}>
           <div className={styles.inputContainer}>
             <h4>Email</h4>
@@ -87,17 +91,15 @@ function App() {
             ></input>
           </div>
 
-          <button onClick={onSubmitHandler} type="submit">
-            Login
-          </button>
+          <Button cta={"Login"} onClick={onSubmitHandler} type={"submit"}/>
         </form>
       )}
 
-      {userCheck === 'test@admin.com' && (
+      { user === 'test@admin.com' && (
         <div>
           <p>You're logged in!</p>
 
-          <button onClick={onLogoutHandler}>Sign Out</button>
+          <Button cta={"Sign Out"} onClick={onLogoutHandler}/>
         </div>
       )}
     </div>
