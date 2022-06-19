@@ -11,8 +11,8 @@ import styles from "./App.css";
 
 function App() {
   // checks if user is logged in or not
-  const [ isLoggedIn, setIsLoggedIn ] = useState(false)
-  const [ user, setUser ] = useState()
+  const [ isLoggedIn, setIsLoggedIn ] = useState(false);
+  const [ user, setUser ] = useState();
 
   // check if the user and password is logged in storage
 
@@ -40,6 +40,7 @@ function App() {
       emailRef.current.value === admin.email &&
       passwordRef.current.value === admin.password
     ) {
+      // firebase logic should go here. set user into state, make sure react knows.
       console.log("Login cleared");
 
       setIsLoggedIn(true);
